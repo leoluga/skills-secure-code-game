@@ -11,18 +11,18 @@ import bcrypt
 
 class Random_generator:
 
-    # generates a random token
+    # generates a random token using the secrets library for true randomness
     def generate_token(self, length=8, alphabet=(
     '0123456789'
     'abcdefghijklmnopqrstuvwxyz'
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     )):
-        return ''.join(random.choice(alphabet) for _ in range(length))
+        return ''.join(secrets.choice(alphabet) for i in range(length))
 
-    # generates salt
+    # better way of generating salt, replaced the function that used a random lib that is no tas secure;
     def generate_salt(self, rounds=12):
-        salt = ''.join(str(random.randint(0, 9)) for _ in range(21)) + '.'
-        return f'$2b${rounds}${salt}'.encode()
+        return bcrypt.gensalt(rounds)
+
 
 class SHA256_hasher:
 
